@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유기농 토마토 키우기 - 팜펀딩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f9fafb;
+        }
+
+        /* 헤더 */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #e5f3e8;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #16a34a;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #15803d;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: #166534;
+            font-weight: 700;
+        }
+
+        /* 메인 컨테이너 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* 프로젝트 헤더 */
+        .project-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-emoji {
+            font-size: 4rem;
+        }
+
+        .project-info h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .project-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #fbbf24;
+        }
+
+        /* 프로젝트 설명 */
+        .project-description {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* 정보 그리드 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .info-card.farmer {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .info-card.crop {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .info-card.farmer h3 {
+            color: #166534;
+        }
+
+        .info-card.crop h3 {
+            color: #1e40af;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            color: #6b7280;
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .funding-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .funding-amount {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #16a34a;
+            margin-bottom: 0.5rem;
+        }
+
+        .target-amount {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .progress-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            transition: width 0.3s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        /* 펀딩 폼 */
+        .funding-form {
+            margin-bottom: 1rem;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: #16a34a;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            cursor: default;
+        }
+
+        .btn:disabled {
+            background: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 추가 정보 섹션 */
+        .additional-info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .info-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: #6b7280;
+            min-width: 80px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .project-info h1 {
+                font-size: 2rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-tabs {
+                flex-direction: column;
+            }
+
+            .header-container {
+                padding: 1rem;
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section, .funding-card {
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .modal-message {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a href="home-page.html" class="back-btn">
+                <span>←</span>
+                <span>홈으로 돌아가기</span>
+            </a>
+            
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>팜펀딩</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <div class="main-container">
+        <!-- 메인 콘텐츠 -->
+        <div class="content-section">
+            <!-- 프로젝트 헤더 -->
+            <div class="project-header">
+                <div class="project-emoji">🍅</div>
+                <div class="project-info">
+                    <h1>유기농 토마토 키우기</h1>
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span>👤</span>
+                            <span>김농부</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>📍</span>
+                            <span>경기도 양평</span>
+                        </div>
+                        <div class="rating">
+                            <span class="star">⭐</span>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로젝트 설명 -->
+            <p class="project-description">
+                안녕하세요! 경기도 양평에서 5년째 유기농 농사를 짓고 있는 김농부입니다. 
+                건강하고 맛있는 유기농 토마토를 정성껏 키워서 여러분께 전해드리겠습니다. 
+                농약과 화학비료를 일체 사용하지 않고, 자연 그대로의 방법으로 재배하여 
+                안전하고 영양가 높은 토마토를 생산하고 있습니다.
+            </p>
+
+            <!-- 정보 그리드 -->
+            <div class="info-grid">
+                <div class="info-card farmer">
+                    <h3>🧑‍🌾 농부 정보</h3>
+                    <div class="info-item">
+                        <span class="info-label">경력:</span>
+                        <span class="info-value">5년</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">성공 프로젝트:</span>
+                        <span class="info-value">3개</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">평점:</span>
+                        <span class="info-value">4.8/5.0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">전문 분야:</span>
+                        <span class="info-value">유기농 채소</span>
+                    </div>
+                </div>
+
+                <div class="info-card crop">
+                    <h3>🍅 재배 정보</h3>
+                    <div class="info-item">
+                        <span class="info-label">품종:</span>
+                        <span class="info-value">완숙 토마토</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">재배 방식:</span>
+                        <span class="info-value">유기농법</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">예상 수확:</span>
+                        <span class="info-value">3개월 후</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">지역:</span>
+                        <span class="info-value">경기도 양평</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 정보 탭 -->
+            <div class="additional-info">
+                <div class="info-tabs">
+                    <button class="tab-btn active" onclick="showTab('progress')">재배 과정</button>
+                    <button class="tab-btn" onclick="showTab('schedule')">일정 계획</button>
+                    <button class="tab-btn" onclick="showTab('rewards')">리워드</button>
+                </div>
+
+                <div id="progress" class="tab-content active">
+                    <h4 style="margin-bottom: 1rem; font-weight: 700;">🌱 재배 진행 과정</h4>
+                    <div class="timeline-item">
+                        <div class="timeline-date">1주차</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">토양 준비 및 씨앗 파종</div>
+                            <div class="timeline-desc">유기농 인증 토양으로 밭을 준비하고 우량 토마토 씨앗을 파종합니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2-4주차</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">발아 및 육묘 관리</div>
+                            <div class="timeline-desc">적절한 온도와 습도를 유지하며 건강한 묘목으로 기릅니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">5-8주차</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">정식 및 초기 관리</div>
+                            <div class="timeline-desc">본밭에 정식하고 지주대 설치, 적심 등 초기 관리를 진행합니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">9-12주차</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">개화 및 착과</div>
+                            <div class="timeline-desc">꽃이 피고 열매가 맺히는 중요한 시기입니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="schedule" class="tab-content">
+                    <h4 style="margin-bottom: 1rem; font-weight: 700;">📅 상세 일정</h4>
+                    <div class="timeline-item">
+                        <div class="timeline-date">3월</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">펀딩 마감 및 준비</div>
+                            <div class="timeline-desc">펀딩이 성공하면 즉시 농사 준비를 시작합니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">4-5월</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">파종 및 육묘</div>
+                            <div class="timeline-desc">온실에서 건강한 묘목을 기릅니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">6-7월</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">재배 및 관리</div>
+                            <div class="timeline-desc">정기적인 관리와 성장 과정을 공유합니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">8월</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">수확 및 배송</div>
+                            <div class="timeline-desc">신선한 토마토를 수확하여 후원자분들께 배송합니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rewards" class="tab-content">
+                    <h4 style="margin-bottom: 1rem; font-weight: 700;">🎁 펀딩 리워드</h4>
+                    <div class="timeline-item">
+                        <div class="timeline-date">5만원</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">토마토 1kg + 재배 일지</div>
+                            <div class="timeline-desc">신선한 유기농 토마토 1kg과 전체 재배 과정이 담긴 일지를 보내드립니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">10만원</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">토마토 3kg + 토마토 소스</div>
+                            <div class="timeline-desc">토마토 3kg과 직접 만든 유기농 토마토 소스를 함께 보내드립니다.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">20만원</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">토마토 5kg + 농장 체험</div>
+                            <div class="timeline-desc">토마토 5kg과 농장 방문 체험 기회를 제공합니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 사이드바 -->
+        <div class="sidebar">
+            <div class="funding-card">
+                <div class="funding-amount">
+                    <div class="current-amount">₩1,450,000</div>
+                    <div class="target-amount">목표 금액: ₩2,000,000</div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>달성률</span>
+                        <span class="progress-percentage">73%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 73%"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">23</div>
+                        <div class="stat-label">참여자</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">남은 일수</div>
+                    </div>
+                </div>
+
+                <div class="funding-form">
+                    <input type="number" class="amount-input" id="fundingAmount" placeholder="펀딩 금액 입력 (원)" min="10000" step="10000">
+                    <button class="btn btn-primary" onclick="handleFunding()">펀딩하기</button>
+                </div>
+
+                <div style="font-size: 0.8rem; color: #6b7280; text-align: center; margin-top: 0.5rem;">
+                    * 최소 펀딩 금액: 10,000원
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 펀딩 성공 모달 -->
+    <div id="fundingModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">펀딩 완료!</h2>
+            <p class="modal-message">
+                <span id="fundingAmountDisplay"></span>원 펀딩이 성공적으로 완료되었습니다.<br>
+                토스 페이먼츠로 결제 페이지로 이동합니다.
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="hideModal()">취소</button>
+                <button class="btn btn-primary" onclick="processPayment()">결제하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 탭 전환 함수
+        function showTab(tabName) {
+            // 모든 탭 버튼과 컨텐츠 비활성화
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 선택된 탭 활성화
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // 펀딩 처리 함수
+        function handleFunding() {
+            const amount = document.getElementById('fundingAmount').value;
+            
+            if (!amount || parseInt(amount) < 10000) {
+                alert('최소 펀딩 금액은 10,000원입니다.');
+                return;
+            }
+
+            // 금액 표시
+            document.getElementById('fundingAmountDisplay').textContent = parseInt(amount).toLocaleString();
+            
+            // 모달 표시
+            document.getElementById('fundingModal').classList.add('show');
+        }
+
+        // 모달 숨기기
+        function hideModal() {
+            document.getElementById('fundingModal').classList.remove('show');
+        }
+
+        // 결제 처리 (토스 페이먼츠 연동 시뮬레이션)
+        function processPayment() {
+            const amount = document.getElementById('fundingAmount').value;
+            
+            // 실제로는 토스 페이먼츠 API 호출
+            // 여기서는 시뮬레이션
+            alert(`토스 페이먼츠로 ${parseInt(amount).toLocaleString()}원 결제가 진행됩니다.`);
+            
+            // 펀딩 금액 업데이트 (시뮬레이션)
+            updateFundingProgress(parseInt(amount));
+            
+            hideModal();
+            document.getElementById('fundingAmount').value = '';
+        }
+
+        // 펀딩 진행률 업데이트
+        function updateFundingProgress(newAmount) {
+            const currentAmountElement = document.querySelector('.current-amount');
+            const progressFill = document.querySelector('.progress-fill');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            // 현재 금액에서 새 금액 추가
+            const currentAmount = 1450000 + newAmount;
+            const targetAmount = 2000000;
+            const percentage = Math.min((currentAmount / targetAmount) * 100, 100);
+            
+            // UI 업데이트
+            currentAmountElement.textContent = `₩${currentAmount.toLocaleString()}`;
+            progressFill.style.width = `${percentage}%`;
+            progressPercentage.textContent = `${Math.round(percentage)}%`;
+            
+            // 목표 달성 시
+            if (percentage >= 100) {
+                document.querySelector('.funding-form').innerHTML = `
+                    <button class="btn btn-success" disabled>펀딩 목표 달성!</button>
+                `;
+            }
+        }
+
+        // 모달 외부 클릭 시 닫기
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                hideModal();
+            }
+        });
+
+        // 숫자 입력 필드에 천 단위 콤마 추가
+        document.getElementById('fundingAmount').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/,/g, '');
+            if (value) {
+                e.target.value = parseInt(value).toLocaleString();
+            }
+        });
+
+        // 페이지 로드 시 URL 파라미터 확인
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+            
+            // 실제로는 프로젝트 ID에 따라 다른 데이터 로드
+            console.log('Project ID:', projectId);
+        });
+    </script>
+</body>
+</html>

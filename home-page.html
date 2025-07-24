@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팜펀딩 - 농부와 함께하는 농작물 키우기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(to bottom, #f0f9ff, #ffffff);
+            min-height: 100vh;
+        }
+
+        /* 헤더 */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #e5f3e8;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: #166534;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #16a34a;
+            border: 2px solid #16a34a;
+        }
+
+        .btn-secondary:hover {
+            background: #16a34a;
+            color: white;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            color: #166534;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        /* 프로젝트 섹션 */
+        .projects-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-emoji {
+            font-size: 3rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-funding {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .progress-section {
+            margin-bottom: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #16a34a;
+            transition: width 0.3s ease;
+        }
+
+        .project-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        .stat-label {
+            color: #6b7280;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+        }
+
+        .user-type-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .type-btn.active {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #16a34a;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>팜펀딩</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="btn btn-secondary" onclick="showModal('loginModal')">로그인</button>
+                <button class="btn btn-primary" onclick="showModal('signupModal')">회원가입</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <h2>농부와 함께하는<br>특별한 농작물 키우기</h2>
+        <p>직접 키우고 싶지만 여건이 어려운 당신을 위해,<br>전문 농부들이 정성껏 농작물을 키워드립니다.</p>
+        <a href="#projects" class="btn btn-primary">펀딩 프로젝트 둘러보기</a>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <h3 class="section-title">진행 중인 펀딩 프로젝트</h3>
+            
+            <div class="projects-grid">
+                <!-- 프로젝트 카드 1 -->
+                <div class="project-card" onclick="goToProject(1)">
+                    <div class="card-header">
+                        <div class="project-emoji">🍅</div>
+                        <div class="status-badge status-funding">펀딩 진행중</div>
+                    </div>
+                    
+                    <h4 class="project-title">유기농 토마토 키우기</h4>
+                    <p class="project-description">건강한 유기농 토마토를 정성껏 키워드리겠습니다.</p>
+                    
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span>👤</span>
+                            <span>김농부</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>📍</span>
+                            <span>경기도 양평</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>펀딩 진행률</span>
+                            <span>73%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 73%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">₩1,450,000</div>
+                            <div class="stat-label">목표: ₩2,000,000</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">23명 참여</div>
+                            <div class="stat-label">15일 남음</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 프로젝트 카드 2 -->
+                <div class="project-card" onclick="goToProject(2)">
+                    <div class="card-header">
+                        <div class="project-emoji">🍓</div>
+                        <div class="status-badge status-funding">펀딩 진행중</div>
+                    </div>
+                    
+                    <h4 class="project-title">친환경 딸기 농장</h4>
+                    <p class="project-description">달콤한 친환경 딸기를 재배하여 여러분께 전해드립니다.</p>
+                    
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span>👤</span>
+                            <span>이농부</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>📍</span>
+                            <span>충남 논산</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>펀딩 진행률</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">₩2,100,000</div>
+                            <div class="stat-label">목표: ₩3,500,000</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">31명 참여</div>
+                            <div class="stat-label">22일 남음</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 프로젝트 카드 3 -->
+                <div class="project-card" onclick="goToProject(3)">
+                    <div class="card-header">
+                        <div class="project-emoji">🥬</div>
+                        <div class="status-badge status-success">펀딩 성공</div>
+                    </div>
+                    
+                    <h4 class="project-title">무농약 상추밭</h4>
+                    <p class="project-description">건강한 무농약 상추를 길러 신선함을 전달합니다.</p>
+                    
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span>👤</span>
+                            <span>박농부</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>📍</span>
+                            <span>전남 나주</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>펀딩 진행률</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">₩1,500,000</div>
+                            <div class="stat-label">목표 달성!</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">18명 참여</div>
+                            <div class="stat-label">펀딩 완료</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 로그인 모달 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">로그인</h2>
+            
+            <div class="user-type-selector">
+                <button class="type-btn active" data-type="buyer">구매자</button>
+                <button class="type-btn" data-type="farmer">농부</button>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder="이메일" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="비밀번호" required>
+                </div>
+            </form>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="hideModal('loginModal')">취소</button>
+                <button class="btn btn-primary" onclick="handleLogin()">로그인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원가입 모달 -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">회원가입</h2>
+            
+            <div class="user-type-selector">
+                <button class="type-btn active" data-type="buyer">구매자</button>
+                <button class="type-btn" data-type="farmer">농부</button>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="이름" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder="이메일" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="비밀번호" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-input" placeholder="전화번호" required>
+                </div>
+            </form>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="hideModal('signupModal')">취소</button>
+                <button class="btn btn-primary" onclick="handleSignup()">가입하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 모달 관련 함수
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // 유저 타입 선택
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 로그인 처리
+        function handleLogin() {
+            const activeType = document.querySelector('#loginModal .type-btn.active').dataset.type;
+            
+            if (activeType === 'farmer') {
+                window.location.href = 'farmer-profile-page.html';
+            } else {
+                alert('로그인 성공!');
+                hideModal('loginModal');
+            }
+        }
+
+        // 회원가입 처리
+        function handleSignup() {
+            const activeType = document.querySelector('#signupModal .type-btn.active').dataset.type;
+            
+            if (activeType === 'farmer') {
+                window.location.href = 'farmer-profile-page.html';
+            } else {
+                alert('회원가입 성공!');
+                hideModal('signupModal');
+            }
+        }
+
+        // 프로젝트 상세 페이지로 이동
+        function goToProject(projectId) {
+            window.location.href = `project-detail-page.html?id=${projectId}`;
+        }
+
+        // 모달 외부 클릭시 닫기
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        // 부드러운 스크롤
+        document.querySelector('a[href="#projects"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('projects').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

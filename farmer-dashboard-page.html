@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>농부 대시보드 - 팜펀딩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        /* 헤더 */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #e5f3e8;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: #166534;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #16a34a;
+            border: 2px solid #16a34a;
+        }
+
+        .btn-secondary:hover {
+            background: #16a34a;
+            color: white;
+        }
+
+        /* 메인 컨테이너 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #1f2937;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        /* 통계 카드 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.green { background: #dcfce7; }
+        .stat-icon.blue { background: #dbeafe; }
+        .stat-icon.purple { background: #f3e8ff; }
+        .stat-icon.orange { background: #fed7aa; }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-info p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* 프로젝트 섹션 */
+        .projects-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .project-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .project-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-funding {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .progress-section {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            transition: width 0.3s ease;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* 새 프로젝트 카드 */
+        .new-project-card {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background: #f9fafb;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .new-project-card:hover {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .new-project-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #9ca3af;
+        }
+
+        .new-project-card:hover .new-project-icon {
+            color: #16a34a;
+        }
+
+        .new-project-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .new-project-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* 최근 활동 */
+        .activity-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            margin-top: 2rem;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #16a34a;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .activity-time {
+            color: #9ca3af;
+            font-size: 0.8rem;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .header-container {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card, .projects-section, .activity-section {
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #16a34a;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+
+        /* 빈 상태 */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-description {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>팜펀딩</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="user-info">
+                    <span>🧑‍🌾</span>
+                    <span>농부님, 안녕하세요!</span>
+                </div>
+                <a href="index.html" class="btn btn-secondary">홈으로 가기</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <div class="main-container">
+        <!-- 페이지 헤더 -->
+        <div class="page-header">
+            <h1 class="page-title">농부 대시보드</h1>
+            <p class="page-subtitle">펀딩 프로젝트를 관리하고 진행 상황을 확인하세요</p>
+        </div>
+
+        <!-- 통계 카드 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon green">🎯</div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>진행 중인 프로젝트</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon blue">👥</div>
+                    <div class="stat-info">
+                        <h3>72</h3>
+                        <p>총 후원자</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon purple">🏆</div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>성공한 프로젝트</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon orange">💰</div>
+                    <div class="stat-info">
+                        <h3>₩8.5M</h3>
+                        <p>총 펀딩 금액</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 프로젝트 섹션 -->
+        <div class="projects-section">
+            <div class="section-header">
+                <h2 class="section-title">내 펀딩 프로젝트</h2>
+                <button class="btn btn-primary" onclick="showNewProjectModal()">새 프로젝트 만들기</button>
+            </div>
+
+            <div class="projects-list">
+                <!-- 새 프로젝트 카드 -->
+                <div class="new-project-card" onclick="showNewProjectModal()">
+                    <div class="new-project-icon">➕</div>
+                    <h3 class="new-project-title">새 프로젝트 만들기</h3>
+                    <p class="new-project-description">새로운 농작물 펀딩 프로젝트를 시작해보세요</p>
+                </div>
+
+                <!-- 프로젝트 1 -->
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <h3>🍅 유기농 토마토 키우기</h3>
+                            <p>건강한 유기농 토마토를 정성껏 키워드리겠습니다.</p>
+                        </div>
+                        <div class="project-status status-funding">펀딩 진행중</div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <div class="stat-value">₩2,000,000</div>
+                            <div class="stat-label">목표 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">₩1,450,000</div>
+                            <div class="stat-label">현재 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">23명</div>
+                            <div class="stat-label">후원자</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">15일</div>
+                            <div class="stat-label">남은 기간</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 73%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-actions">
+                        <button class="btn btn-secondary btn-sm">프로젝트 수정</button>
+                        <button class="btn btn-primary btn-sm">진행 상황 업데이트</button>
+                    </div>
+                </div>
+
+                <!-- 프로젝트 2 -->
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <h3>🍓 친환경 딸기 농장</h3>
+                            <p>달콤한 친환경 딸기를 재배하여 여러분께 전해드립니다.</p>
+                        </div>
+                        <div class="project-status status-funding">펀딩 진행중</div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <div class="stat-value">₩3,500,000</div>
+                            <div class="stat-label">목표 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">₩2,100,000</div>
+                            <div class="stat-label">현재 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">31명</div>
+                            <div class="stat-label">후원자</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">22일</div>
+                            <div class="stat-label">남은 기간</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-actions">
+                        <button class="btn btn-secondary btn-sm">프로젝트 수정</button>
+                        <button class="btn btn-primary btn-sm">진행 상황 업데이트</button>
+                    </div>
+                </div>
+
+                <!-- 프로젝트 3 -->
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <h3>🥬 무농약 상추밭</h3>
+                            <p>건강한 무농약 상추를 길러 신선함을 전달합니다.</p>
+                        </div>
+                        <div class="project-status status-success">펀딩 성공</div>
+                    </div>
+
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <div class="stat-value">₩1,500,000</div>
+                            <div class="stat-label">목표 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">₩1,500,000</div>
+                            <div class="stat-label">달성 금액</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">18명</div>
+                            <div class="stat-label">후원자</div>
+                        </div>
+                        <div class="project-stat">
+                            <div class="stat-value">완료</div>
+                            <div class="stat-label">상태</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-actions">
+                        <button class="btn btn-secondary btn-sm">재배 일지 작성</button>
+                        <button class="btn btn-primary btn-sm">후원자 소통</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 최근 활동 -->
+        <div class="activity-section">
+            <h2 class="section-title">최근 활동</h2>
+            
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon">💰</div>
+                    <div class="activity-content">
+                        <div class="activity-title">새로운 후원자</div>
+                        <div class="activity-description">김구매자님이 토마토 프로젝트에 50,000원을 후원했습니다.</div>
+                    </div>
+                    <div class="activity-time">2시간 전</div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">📝</div>
+                    <div class="activity-content">
+                        <div class="activity-title">재배 일지 업데이트</div>
+                        <div class="activity-description">상추밭 프로젝트의 주간 재배 일지를 업데이트했습니다.</div>
+                    </div>
+                    <div class="activity-time">1일 전</div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">🎯</div>
+                    <div class="activity-content">
+                        <div class="activity-title">펀딩 목표 달성</div>
+                        <div class="activity-description">상추밭 프로젝트가 목표 금액을 달성했습니다!</div>
+                    </div>
+                    <div class="activity-time">3일 전</div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">🌱</div>
+                    <div class="activity-content">
+                        <div class="activity-title">새 프로젝트 시작</div>
+                        <div class="activity-description">딸기 농장 프로젝트를 새로 시작했습니다.</div>
+                    </div>
+                    <div class="activity-time">1주일 전</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 새 프로젝트 모달 -->
+    <div id="newProjectModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">새 프로젝트 만들기</h2>
+            
+            <form>
+                <div class="form-group">
+                    <label class="form-label">프로젝트 제목</label>
+                    <input type="text" class="form-input" placeholder="예: 유기농 토마토 키우기" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">프로젝트 설명</label>
+                    <textarea class="form-textarea" placeholder="프로젝트에 대한 자세한 설명을 입력하세요" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">목표 금액 (원)</label>
+                    <input type="number" class="form-input" placeholder="예: 2000000" min="100000" step="10000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">펀딩 기간 (일)</label>
+                    <input type="number" class="form-input" placeholder="예: 30" min="7" max="90" required>
+                </div>
+            </form>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="hideModal()">취소</button>
+                <button class="btn btn-primary" onclick="createProject()">프로젝트 만들기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 새 프로젝트 모달 표시
+        function showNewProjectModal() {
+            document.getElementById('newProjectModal').classList.add('show');
+        }
+
+        // 모달 숨기기
+        function hideModal() {
+            document.getElementById('newProjectModal').classList.remove('show');
+        }
+
+        // 프로젝트 생성
+        function createProject() {
+            // 실제로는 폼 검증 및 서버 전송
+            alert('새 프로젝트가 생성되었습니다!');
+            hideModal();
+        }
+
+        // 모달 외부 클릭 시 닫기
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                hideModal();
+            }
+        });
+
+        // 숫자 입력 필드에 천 단위 콤마 추가
+        document.querySelector('input[type="number"]').addEventListener('input', function(e) {
+            if (e.target.placeholder.includes('금액')) {
+                let value = e.target.value.replace(/,/g, '');
+                if (value) {
+                    e.target.value = parseInt(value).toLocaleString();
+                }
+            }
+        });
+
+        // 페이지 로드 시 애니메이션
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.stat-card, .projects-section, .activity-section');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = `fadeIn 0.6s ease ${index * 0.1}s both`;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 시고르팜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255,255,255,0.8);
+            color: #4CAF50;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .back-to-home:hover {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px;
+            min-height: 500px;
+            display: flex;
+        }
+
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-left h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .login-left p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .login-right {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: #2E7D32;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #F5F5F5;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                margin: 1rem;
+                max-width: none;
+            }
+
+            .login-left {
+                padding: 2rem;
+                min-height: 200px;
+            }
+
+            .login-left h1 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .login-right {
+                padding: 2rem;
+            }
+
+            .back-to-home {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1000;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-home">← 홈으로</a>
+    
+    <div class="login-container">
+        <div class="login-left">
+            <div class="welcome-icon">🌱</div>
+            <h1>시고르팜에 오신 것을 환영합니다</h1>
+            <p>함께 키우는 농장에서 신뢰할 수 있는 농산물을 만나보세요</p>
+        </div>
+        
+        <div class="login-right">
+            <div class="form-header">
+                <h2>로그인</h2>
+                <p>계정에 로그인하여 시작하세요</p>
+            </div>
+
+            <div class="form-tabs">
+                <button class="tab-button active" onclick="switchTab('login')">로그인</button>
+                <button class="tab-button" onclick="switchTab('signup')">회원가입</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="form-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">이메일</label>
+                        <input type="email" id="login-email" name="email" required placeholder="이메일을 입력하세요">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">비밀번호</label>
+                        <input type="password" id="login-password" name="password" required placeholder="비밀번호를 입력하세요">
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me" name="remember">
+                        <label for="remember-me">로그인 상태 유지</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">로그인</button>
+                </form>
+                
+                <div class="forgot-password">
+                    <a href="#" onclick="alert('비밀번호 재설정 기능은 데모에서 제공되지 않습니다.')">비밀번호를 잊으셨나요?</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-form" class="form-content">
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signup-name">이름</label>
+                        <input type="text" id="signup-name" name="name" required placeholder="이름을 입력하세요">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-email">이메일</label>
+                        <input type="email" id="signup-email" name="email" required placeholder="이메일을 입력하세요">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password">비밀번호</label>
+                        <input type="password" id="signup-password" name="password" required placeholder="비밀번호를 입력하세요" minlength="6">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="user-type">사용자 유형</label>
+                        <select id="user-type" name="userType" required>
+                            <option value="">선택하세요</option>
+                            <option value="consumer">소비자 (작물 구매)</option>
+                            <option value="farmer">농부 (작물 판매)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">이용약관 및 개인정보처리방침에 동의합니다</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">회원가입</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all form contents
+            document.querySelectorAll('.form-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected form and activate tab
+            if (tabName === 'login') {
+                document.getElementById('login-form').classList.add('active');
+                document.querySelector('.tab-button').classList.add('active');
+                document.querySelector('.form-header h2').textContent = '로그인';
+                document.querySelector('.form-header p').textContent = '계정에 로그인하여 시작하세요';
+            } else {
+                document.getElementById('signup-form').classList.add('active');
+                document.querySelectorAll('.tab-button')[1].classList.add('active');
+                document.querySelector('.form-header h2').textContent = '회원가입';
+                document.querySelector('.form-header p').textContent = '새 계정을 만들어 시작하세요';
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const email = formData.get('email');
+            
+            // 간단한 데모용 로그인
+            if (email) {
+                alert('로그인 성공! 메인 페이지로 이동합니다.');
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const terms = formData.get('terms');
+            
+            if (!terms) {
+                alert('이용약관에 동의해주세요.');
+                return;
+            }
+            
+            // 간단한 데모용 회원가입
+            alert('회원가입이 완료되었습니다! 로그인해주세요.');
+            switchTab('login');
+        }
+
+        // 페이지 로드 시 이미 로그인된 사용자 확인
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                const userEmail = localStorage.getItem('userEmail');
+                if (confirm(`이미 ${userEmail}로 로그인되어 있습니다. 메인 페이지로 이동하시겠습니까?`)) {
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회사 소개 - 시고르팜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-cta {
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: white;
+            color: #4CAF50;
+        }
+
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            font-size: 3rem;
+            color: #2E7D32;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            color: #558B5B;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-slogan {
+            font-size: 1.3rem;
+            color: #2E7D32;
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #2E7D32;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        /* Vision Section */
+        .vision-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .vision-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 4px solid #4CAF50;
+            text-align: center;
+        }
+
+        .vision-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .vision-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vision-title {
+            color: #2E7D32;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .vision-description {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Story Section */
+        .story-section {
+            background: #F8FDF8;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            color: #2E7D32;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .story-text p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-image {
+            background: linear-gradient(45deg, #C8E6C9, #A5D6A7);
+            height: 250px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        .member-name {
+            color: #2E7D32;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .member-role {
+            color: #4CAF50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .member-description {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .contact-cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #2E7D32;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2E7D32;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1B5E20;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #81C784;
+        }
+
+        .footer-section p {
+            color: #C8E6C9;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #388E3C;
+            color: #A5D6A7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-hero p {
+                font-size: 1rem;
+            }
+
+            .hero-slogan {
+                font-size: 1.1rem;
+            }
+
+            .vision-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🌱 시고르팜</div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈</a></li>
+                <li><a href="crops.html">작물선택</a></li>
+                <li><a href="my-farm.html">내농장</a></li>
+                <li><a href="experience.html">체험</a></li>
+                <li><a href="about.html">소개</a></li>
+            </ul>
+            <a href="login.html" class="nav-cta">로그인</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <h1>시고르팜 이야기</h1>
+        <p>농업과 기술의 만남으로 소비자와 농부가 함께 만들어가는 새로운 농업 생태계를 구축합니다. 
+        투명하고 신뢰할 수 있는 농산물 유통을 통해 모두가 행복한 농업을 만들어갑니다.</p>
+        <div class="hero-slogan">"함께 키우는 농장, 신뢰할 수 있는 먹거리"</div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Vision Section -->
+        <section>
+            <h2 class="section-title">🎯 우리의 비전</h2>
+            
+            <div class="vision-cards">
+                <div class="vision-card">
+                    <div class="vision-icon">🤝</div>
+                    <h3 class="vision-title">신뢰 기반 연결</h3>
+                    <p class="vision-description">
+                        소비자와 농부 간의 직접적인 소통과 투명한 재배 과정 공유를 통해 
+                        서로 신뢰할 수 있는 관계를 만들어갑니다.
+                    </p>
+                </div>
+                
+                <div class="vision-card">
+                    <div class="vision-icon">🌱</div>
+                    <h3 class="vision-title">지속 가능한 농업</h3>
+                    <p class="vision-description">
+                        친환경 농법을 장려하고 지역 농업을 활성화하여 
+                        지속 가능한 농업 생태계를 구축합니다.
+                    </p>
+                </div>
+                
+                <div class="vision-card">
+                    <div class="vision-icon">💚</div>
+                    <h3 class="vision-title">건강한 먹거리</h3>
+                    <p class="vision-description">
+                        안전하고 신선한 농산물을 통해 모든 사람이 
+                        건강한 먹거리를 쉽게 접할 수 있는 세상을 만듭니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section">
+            <div class="story-content">
+                <div class="story-text">
+                    <h2>🚀 시고르팜의 시작</h2>
+                    <p>
+                        시고르팜은 도시에 살면서도 안전한 농산물을 먹고 싶어하는 소비자들과 
+                        정성스럽게 기른 작물을 제대로 인정받고 싶어하는 농부들의 만남에서 시작되었습니다.
+                    </p>
+                    <p>
+                        기존의 복잡한 유통 구조를 벗어나 농부와 소비자가 직접 소통할 수 있는 
+                        플랫폼을 만들어 서로에게 도움이 되는 상생의 농업을 실현하고자 합니다.
+                    </p>
+                    <p>
+                        단순히 농산물을 사고파는 것을 넘어서 농작물이 자라는 과정을 함께 지켜보며 
+                        농업의 가치와 의미를 다시 생각해볼 수 있는 기회를 제공합니다.
+                    </p>
+                </div>
+                <div class="story-image">🌾</div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <h2 class="section-title">📊 시고르팜 현황</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">등록 농부</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">1,283</div>
+                    <div class="stat-label">성공한 재배</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">8,429</div>
+                    <div class="stat-label">가입 회원</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">4.8</div>
+                    <div class="stat-label">평균 만족도</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2 class="section-title">👥 팀 소개</h2>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">👨‍💼</div>
+                    <h3 class="member-name">김대표</h3>
+                    <p class="member-role">대표이사 / CEO</p>
+                    <p class="member-description">
+                        농업 경영학 전공으로 10년간 농업 분야에서 일하며 
+                        농업과 기술의 융합에 대한 비전을 가지고 시고르팜을 설립했습니다.
+                    </p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">👩‍💻</div>
+                    <h3 class="member-name">이개발</h3>
+                    <p class="member-role">기술이사 / CTO</p>
+                    <p class="member-description">
+                        15년 경력의 개발자로 농업 데이터 플랫폼 구축과 
+                        사용자 경험 개선을 위한 기술 개발을 담당하고 있습니다.
+                    </p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">👨‍🌾</div>
+                    <h3 class="member-name">박농업</h3>
+                    <p class="member-role">농업이사 / CAO</p>
+                    <p class="member-description">
+                        농업진흥청 출신으로 20년간 농업 현장에서 일하며 
+                        농부와의 네트워크 구축과 품질 관리를 담당하고 있습니다.
+                    </p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">👩‍💼</div>
+                    <h3 class="member-name">최마케팅</h3>
+                    <p class="member-role">마케팅이사 / CMO</p>
+                    <p class="member-description">
+                        소비재 마케팅 12년 경력으로 소비자 니즈 분석과 
+                        브랜드 가치 전달을 위한 마케팅 전략을 수립합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <h2>함께 만들어가요!</h2>
+            <p>시고르팜과 함께 새로운 농업의 미래를 만들어가고 싶으시다면 언제든 연락주세요</p>
+            <div class="cta-buttons">
+                <a href="mailto:hello@sigorfarm.com" class="btn-primary">문의하기</a>
+                <a href="crops.html" class="btn-secondary">시작하기</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="main-content">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>시고르팜</h3>
+                    <p>함께 키우는 농장, 신뢰할 수 있는 먹거리</p>
+                    <p>농업과 기술의 만남으로 새로운 농업 생태계를 구축합니다.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>회사 정보</h3>
+                    <p>설립일: 2022년 3월</p>
+                    <p>대표: 김대표</p>
+                    <p>사업자번호: 123-45-67890</p>
+                </div>
+                <div class="footer-section">
+                    <h3>연락처</h3>
+                    <p>이메일: hello@sigorfarm.com</p>
+                    <p>전화: 1588-0000</p>
+                    <p>주소: 서울시 강남구 농업로 123</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 시고르팜(SIGORFARM). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 관찰할 요소들 설정
+        document.querySelectorAll('.vision-card, .team-member, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

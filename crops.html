@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작물 선택 - 시고르팜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-cta {
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: white;
+            color: #4CAF50;
+        }
+
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            font-size: 2.5rem;
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero p {
+            font-size: 1.1rem;
+            color: #558B5B;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Crops Grid */
+        .crops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .crop-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #C8E6C9, #A5D6A7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .crop-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .crop-info {
+            padding: 1.5rem;
+        }
+
+        .crop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .crop-title {
+            color: #2E7D32;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .crop-farmer {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .crop-price {
+            color: #4CAF50;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .crop-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .crop-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .crop-detail span:first-child {
+            color: #666;
+        }
+
+        .crop-detail span:last-child {
+            font-weight: 600;
+        }
+
+        .crop-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .crop-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-select {
+            flex: 1;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-select:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h2 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-selector {
+            margin: 1.5rem 0;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #45a049;
+        }
+
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+            padding: 0.5rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .total-price {
+            background: #F8FDF8;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .total-price .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .crops-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .crop-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🌱 시고르팜</div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈</a></li>
+                <li><a href="crops.html">작물선택</a></li>
+                <li><a href="my-farm.html">내농장</a></li>
+                <li><a href="experience.html">체험</a></li>
+                <li><a href="about.html">소개</a></li>
+            </ul>
+            <a href="login.html" class="nav-cta">로그인</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <h1>작물을 선택하세요</h1>
+        <p>신뢰할 수 있는 농부들이 키우는 다양한 작물 중에서 원하시는 것을 선택해보세요</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="crops-grid">
+            <!-- 토마토 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🍅
+                    <span class="crop-status">재배가능</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">방울토마토</h3>
+                            <p class="crop-farmer">👨‍🌾 김농부 농장</p>
+                        </div>
+                        <div class="crop-price">35,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>경기도 양평</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>2개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>3kg</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">달콤하고 맛있는 방울토마토를 무농약으로 키웁니다. 매주 성장 사진을 공유드려요!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('방울토마토', 35000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 상추 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🥬
+                    <span class="crop-status">재배가능</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">유기농 상추</h3>
+                            <p class="crop-farmer">👩‍🌾 이농부 농장</p>
+                        </div>
+                        <div class="crop-price">25,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>강원도 홍천</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>1개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>2kg</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">깨끗한 강원도 물로 키우는 싱싱한 유기농 상추입니다. 쌈채소로 최고!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('유기농 상추', 25000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 딸기 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🍓
+                    <span class="crop-status">한정수량</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">설향 딸기</h3>
+                            <p class="crop-farmer">👨‍🌾 박농부 농장</p>
+                        </div>
+                        <div class="crop-price">55,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>충남 논산</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>3개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>2kg</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">한국에서 가장 인기 있는 설향 품종 딸기입니다. 달콤함이 일품이에요!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('설향 딸기', 55000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 바질 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🌿
+                    <span class="crop-status">재배가능</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">프리미엄 바질</h3>
+                            <p class="crop-farmer">👩‍🌾 허브농장</p>
+                        </div>
+                        <div class="crop-price">20,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>경기도 파주</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>1개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>500g</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">이탈리안 요리에 필수인 신선한 바질입니다. 향이 정말 좋아요!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('프리미엄 바질', 20000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 감자 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🥔
+                    <span class="crop-status">재배가능</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">강원도 감자</h3>
+                            <p class="crop-farmer">👨‍🌾 정농부 농장</p>
+                        </div>
+                        <div class="crop-price">40,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>강원도 평창</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>3개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>5kg</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">고랭지에서 자란 맛있는 감자입니다. 포슬포슬하고 달콤한 맛이 일품!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('강원도 감자', 40000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 배추 -->
+            <div class="crop-card">
+                <div class="crop-image">
+                    🥬
+                    <span class="crop-status">재배가능</span>
+                </div>
+                <div class="crop-info">
+                    <div class="crop-header">
+                        <div>
+                            <h3 class="crop-title">김치용 배추</h3>
+                            <p class="crop-farmer">👩‍🌾 최농부 농장</p>
+                        </div>
+                        <div class="crop-price">30,000원</div>
+                    </div>
+                    <div class="crop-details">
+                        <div class="crop-detail">
+                            <span>재배지역:</span>
+                            <span>전남 해남</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>수확예정:</span>
+                            <span>2개월 후</span>
+                        </div>
+                        <div class="crop-detail">
+                            <span>예상수확량:</span>
+                            <span>10포기</span>
+                        </div>
+                    </div>
+                    <p class="crop-description">김치 담그기 최적화된 배추입니다. 해남의 좋은 토양에서 자란 프리미엄 배추!</p>
+                    <div class="crop-actions">
+                        <button class="btn-select" onclick="selectCrop('김치용 배추', 30000)">선택하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Selection Modal -->
+    <div id="crop-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">작물 선택</h2>
+            <div class="quantity-selector">
+                <label for="quantity">수량 선택:</label>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                    <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="5" onchange="updateTotal()">
+                    <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                </div>
+            </div>
+            
+            <div class="total-price">
+                <p>총 금액: <span id="total-amount" class="price">0원</span></p>
+            </div>
+            
+            <button class="btn-confirm" onclick="confirmSelection()">재배 참여하기</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedCrop = '';
+        let selectedPrice = 0;
+
+        function selectCrop(cropName, price) {
+            selectedCrop = cropName;
+            selectedPrice = price;
+            
+            document.getElementById('modal-title').textContent = cropName + ' 선택';
+            document.getElementById('quantity').value = 1;
+            updateTotal();
+            document.getElementById('crop-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('crop-modal').style.display = 'none';
+        }
+
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            let newValue = parseInt(quantityInput.value) + change;
+            
+            if (newValue < 1) newValue = 1;
+            if (newValue > 5) newValue = 5;
+            
+            quantityInput.value = newValue;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const total = selectedPrice * quantity;
+            document.getElementById('total-amount').textContent = total.toLocaleString() + '원';
+        }
+
+        function confirmSelection() {
+            const quantity = document.getElementById('quantity').value;
+            const total = selectedPrice * quantity;
+            
+            if (confirm(`${selectedCrop} ${quantity}개를 ${total.toLocaleString()}원에 주문하시겠습니까?`)) {
+                alert('주문이 완료되었습니다! 농부가 곧 재배를 시작할 예정입니다.\n\n내 농장 페이지에서 진행상황을 확인하실 수 있습니다.');
+                closeModal();
+                setTimeout(() => {
+                    if (confirm('내 농장 페이지로 이동하시겠습니까?')) {
+                        window.location.href = 'my-farm.html';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Modal 외부 클릭시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('crop-modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
